@@ -29,7 +29,7 @@ import { DomSanitizer,SafeHtml } from "@angular/platform-browser";
 
 
 export class ChatComponent implements OnInit, AfterViewChecked {
-    @ViewChild('messageContainer') messageContainer!: ElementRef;
+    @ViewChild('messageContainers') messageContainer!: ElementRef;
     @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
     sessions: ChatSession[] = [];
@@ -53,6 +53,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     constructor(private api: ApiService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer) {}
 
     ngOnInit(): void {
+        if (window.matchMedia('(max-width: 560px)').matches) {
+            this.showDocPanel = false;
+        }
         this.loadSessions();
         this.loadDocuments();
     }
